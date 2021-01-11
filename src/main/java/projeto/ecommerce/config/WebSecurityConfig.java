@@ -1,4 +1,5 @@
 //package projeto.ecommerce.config;
+//
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -6,19 +7,17 @@
 //
 //@EnableWebSecurity
 //@Configuration
-//public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
+//public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //
-////        configuração para desabilitar a autenticação do spring boot
-//    @Override
-//    protected void configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity.csrf().disable().authorizeRequests().anyRequest().permitAll();
+//  @Override
+//  protected void configure(HttpSecurity httpSecurity) throws Exception {
+//       httpSecurity.csrf().disable().authorizeRequests().anyRequest().permitAll();
 //
-//    }
+//   }
 //
 //    //configuração para desabilitar a autenticação do spring boot
-//
-////    @Override
-////    protected void configure(HttpSecurity http) throws Exception {
-////        http.authorizeRequests().antMatchers("/").permitAll().and().csrf().disable();
-////    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests().antMatchers("/").permitAll().and().csrf().disable();
+//    }
 //}
