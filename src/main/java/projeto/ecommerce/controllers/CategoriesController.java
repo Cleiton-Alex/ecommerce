@@ -14,6 +14,7 @@ import projeto.ecommerce.entities.Salesman;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.CategoriesService;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Optional;
 
@@ -88,6 +89,42 @@ public class CategoriesController {
 
     }
 
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Response<CategoriesDto>> atualizar(@PathVariable("id") Long id,
+                                                             @Valid @RequestBody CategoriesDto categoriesDto, BindingResult result) throws ParseException {
+        log.info("Atualizando lançamento: {}", categoriesDto.toString());
+        Response<CategoriesDto> response = new Response<CategoriesDto>();
+        categoriesDto.setId(id);
+        Categories categories = this.converterDtoParaCategories(categoriesDto, result);
+
+        if (result.hasErrors()) {
+            log.error("Erro validando lançamento: {}", result.getAllErrors());
+            result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        categories = this.categoriesService.pesistir(categories);
+        response.setData(this.converterCategoriesPraDTo(categories));
+        return ResponseEntity.ok(response);
+    }
+
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id) {
+        log.info("Removendo lançamento: {}", id);
+        Response<String> response = new Response<String>();
+        Optional<Categories> lancamento = this.categoriesService.buscarPorId(id);
+
+        if (!lancamento.isPresent()) {
+            log.info("Erro ao remover devido ao lançamento ID: {} ser inválido.", id);
+            response.getErrors().add("Erro ao remover lançamento. Registro não encontrado para o id " + id);
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        this.categoriesService.remover(id);
+        return ResponseEntity.ok(new Response<String>());
+    }
 
 
     private Categories converterDtoParaCategories(CategoriesDto categoriesDto, BindingResult result) throws ParseException {

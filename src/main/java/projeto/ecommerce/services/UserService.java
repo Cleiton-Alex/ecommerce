@@ -19,4 +19,6 @@ public interface UserService {
     Optional<User> buscarPorId(Long id);
 
     Optional<User> buscarPorUser(String userName);
+
+    void remover(Long id);
 }

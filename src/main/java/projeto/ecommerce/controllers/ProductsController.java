@@ -8,11 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import projeto.ecommerce.dtos.CategoriesDto;
 import projeto.ecommerce.dtos.ProductsDto;
+import projeto.ecommerce.entities.Categories;
 import projeto.ecommerce.entities.Products;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.ProductsService;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Optional;
 
@@ -94,6 +97,42 @@ public class ProductsController {
     }
 
 
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Response<ProductsDto>> atualizar(@PathVariable("id") Long id,
+                                                             @Valid @RequestBody ProductsDto productsDto, BindingResult result) throws ParseException {
+        log.info("Atualizando lançamento: {}", productsDto.toString());
+        Response<ProductsDto> response = new Response<ProductsDto>();
+        productsDto.setId(id);
+        Products products = this.converterDtoParaProducts(productsDto, result);
+
+        if (result.hasErrors()) {
+            log.error("Erro validando lançamento: {}", result.getAllErrors());
+            result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        products = this.productsService.pesistir(products);
+        response.setData(this.converterProductsPraDTo(products));
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(value = "/{id}")
+
+    public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id) {
+        log.info("Removendo lançamento: {}", id);
+        Response<String> response = new Response<String>();
+        Optional<Products> lancamento = this.productsService.buscarPorId(id);
+
+        if (!lancamento.isPresent()) {
+            log.info("Erro ao remover devido ao lançamento ID: {} ser inválido.", id);
+            response.getErrors().add("Erro ao remover lançamento. Registro não encontrado para o id " + id);
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        this.productsService.remover(id);
+        return ResponseEntity.ok(new Response<String>());
+    }
 
     private Products converterDtoParaProducts(ProductsDto productsDto, BindingResult result) throws ParseException {
 

@@ -17,4 +17,6 @@ public interface CategoriesService {
     Optional<Categories> buscarPorId(Long id);
 
     Optional<Categories> buscarPorName(String name);
+
+    void remover(Long id);
 }

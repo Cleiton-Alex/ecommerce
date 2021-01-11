@@ -49,5 +49,10 @@ public class ProductsServiceImpl implements ProductsService {
         return this.productsRepository.findById(id);
     }
 
+    @Override
+    public void remover(Long id) {
+        log.info("Removendo Lançamento por ID {}", id);
+        this.productsRepository.deleteById(id);
+    }
 
 }

@@ -23,4 +23,6 @@ public interface ProductsService {
     Optional<Products> buscarPorNomeProduct(String nomeProduct);
 
     Optional<Products> buscarPorId(Long id);
+
+    void remover(Long id);
 }

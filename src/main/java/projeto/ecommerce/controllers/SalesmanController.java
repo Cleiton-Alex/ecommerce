@@ -16,6 +16,7 @@ import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.SalesmanService;
 import projeto.ecommerce.utils.PasswordUtils;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Optional;
 
@@ -91,6 +92,41 @@ public class SalesmanController {
 
     }
 
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Response<SalesmanDto>> atualizar(@PathVariable("id") Long id,
+                                                           @Valid @RequestBody SalesmanDto salesmanDto, BindingResult result) throws ParseException {
+        log.info("Atualizando lançamento: {}", salesmanDto.toString());
+        Response<SalesmanDto> response = new Response<SalesmanDto>();
+        salesmanDto.setId(Optional.of(id));
+        Salesman salesman = this.converterDtoParaSalesman(salesmanDto, result);
+
+        if (result.hasErrors()) {
+            log.error("Erro validando lançamento: {}", result.getAllErrors());
+            result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        salesman = this.salesmanService.pesistir(salesman);
+        response.setData(this.converterSalesmanPraDTo(salesman));
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id) {
+        log.info("Removendo lançamento: {}", id);
+        Response<String> response = new Response<String>();
+        Optional<Salesman> lancamento = this.salesmanService.buscarPorId(id);
+
+        if (!lancamento.isPresent()) {
+            log.info("Erro ao remover devido ao lançamento ID: {} ser inválido.", id);
+            response.getErrors().add("Erro ao remover lançamento. Registro não encontrado para o id " + id);
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        this.salesmanService.remover(id);
+        return ResponseEntity.ok(new Response<String>());
+    }
 
 
     private Salesman converterDtoParaSalesman(SalesmanDto salesmanDto, BindingResult result) throws ParseException {

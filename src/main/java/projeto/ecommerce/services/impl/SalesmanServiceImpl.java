@@ -38,5 +38,10 @@ public class SalesmanServiceImpl implements SalesmanService {
         return this.salesmanRepository.findById(id);
     }
 
+    @Override
+    public void remover(Long id) {
+        log.info("Removendo Lançamento por ID {}", id);
+        this.salesmanRepository.deleteById(id);
+    }
 
 }

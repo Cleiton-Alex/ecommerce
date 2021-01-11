@@ -35,5 +35,10 @@ public class CategoriesServiceImpl implements CategoriesService {
     }
 
 
+    @Override
+    public void remover(Long id) {
+        log.info("Removendo Lançamento por ID {}", id);
+        this.categoriesRepository.deleteById(id);
+    }
 
 }

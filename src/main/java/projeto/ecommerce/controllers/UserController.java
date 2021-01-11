@@ -17,6 +17,7 @@ import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.UserService;
 import projeto.ecommerce.utils.PasswordUtils;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Optional;
 
@@ -58,6 +59,42 @@ public class UserController {
         return ResponseEntity.ok(response);
 
 
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Response<UserDto>> atualizar(@PathVariable("id") Long id,
+                                                           @Valid @RequestBody UserDto userDto, BindingResult result) throws ParseException {
+        log.info("Atualizando lançamento: {}", userDto.toString());
+        Response<UserDto> response = new Response<UserDto>();
+        userDto.setId(id);
+        User user = this.converterDtoParaUser(userDto, result);
+
+        if (result.hasErrors()) {
+            log.error("Erro validando lançamento: {}", result.getAllErrors());
+            result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        user = this.userService.pesistir(user);
+        response.setData(this.converterUserPraDTo(user));
+        return ResponseEntity.ok(response);
+    }
+
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id) {
+        log.info("Removendo lançamento: {}", id);
+        Response<String> response = new Response<String>();
+        Optional<User> lancamento = this.userService.buscarPorId(id);
+
+        if (!lancamento.isPresent()) {
+            log.info("Erro ao remover devido ao lançamento ID: {} ser inválido.", id);
+            response.getErrors().add("Erro ao remover lançamento. Registro não encontrado para o id " + id);
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        this.userService.remover(id);
+        return ResponseEntity.ok(new Response<String>());
     }
 
     private User converterDtoParaUser(UserDto userDto, BindingResult result) {

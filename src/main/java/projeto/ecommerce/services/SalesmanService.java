@@ -17,5 +17,7 @@ public interface SalesmanService {
 
     Optional<Salesman> buscarPorId(Long id);
 
+    void remover(Long id);
+
 
 }

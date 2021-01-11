@@ -43,4 +43,10 @@ public class UserServiceImpl implements UserService {
         log.info("Buscando por user name: {} ", userName);
         return Optional.ofNullable(this.userRepository.findByUserName(userName));
     }
+
+    @Override
+    public void remover(Long id) {
+        log.info("Removendo Lançamento por ID {}", id);
+        this.userRepository.deleteById(id);
+    }
 }
