@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -14,7 +12,6 @@ import projeto.ecommerce.dtos.ProductsDto;
 import projeto.ecommerce.entities.Products;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.ProductsService;
-import org.springframework.data.domain.Sort.Direction;
 
 import java.text.ParseException;
 import java.util.Optional;
