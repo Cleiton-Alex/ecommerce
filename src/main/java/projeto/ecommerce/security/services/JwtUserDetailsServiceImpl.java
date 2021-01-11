@@ -17,14 +17,14 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserService userService;
 
-
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<User> user = userService.buscarPorUser(userName);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userService.buscarPorEmail(username);
 
-        if(user.isPresent()){
+        if (user.isPresent()) {
             return JwtUserFactory.create(user.get());
         }
-        throw new UsernameNotFoundException("User não encontrado");
+
+        throw new UsernameNotFoundException("Email não encontrado.");
     }
 }

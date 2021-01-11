@@ -1,22 +1,26 @@
 package projeto.ecommerce.security.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 public class JwtAuthenticationDto {
-    private String user;
+    private String email;
     private String senha;
 
-
-    @NotEmpty(message = "Usuario não pode ser vazio")
-    public String getUser() {
-        return user;
+    public JwtAuthenticationDto() {
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    @NotEmpty(message = "Email não pode ser vazio.")
+    @Email(message = "Email inválido.")
+    public String getEmail() {
+        return email;
     }
 
-    @NotEmpty(message = "senha não pode ser vazia")
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @NotEmpty(message = "Senha não pode ser vazia.")
     public String getSenha() {
         return senha;
     }
@@ -27,9 +31,6 @@ public class JwtAuthenticationDto {
 
     @Override
     public String toString() {
-        return "JwtAuthenticationDto{" +
-                "user='" + user + '\'' +
-                ", senha='" + senha + '\'' +
-                '}';
+        return "JwtAuthenticationRequestDto [email=" + email + ", senha=" + senha + "]";
     }
 }

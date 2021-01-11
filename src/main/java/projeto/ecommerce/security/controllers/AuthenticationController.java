@@ -65,12 +65,12 @@ public class AuthenticationController {
         Response<TokenDto> response = new Response<TokenDto>();
 
 
-        log.info("Gerando token para o user {}.", authenticationDto.getUser());
+        log.info("Gerando token para o email {}.", authenticationDto.getEmail());
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authenticationDto.getUser(), authenticationDto.getSenha()));
+                authenticationDto.getEmail(), authenticationDto.getSenha()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getUser());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getEmail());
         String token = jwtTokenUtil.obterToken(userDetails);
         response.setData(new TokenDto(token));
 

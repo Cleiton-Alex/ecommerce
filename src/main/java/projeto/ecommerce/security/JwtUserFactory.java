@@ -21,7 +21,7 @@ public class JwtUserFactory {
      * @return JwtUser
      */
     public static JwtUser create(User user) {
-        return new JwtUser(user.getId(), user.getEmail(), user.getSenha(),
+        return new JwtUser(user.getId(), user.getEmail(),user.getSenha(),
                 mapToGrantedAuthorities(user.getPerfil()));
     }
 
