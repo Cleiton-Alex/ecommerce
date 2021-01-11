@@ -50,7 +50,7 @@ public class Products implements Serializable {
         this.salesman = salesman;
     }
 
-    @Column(name = "nameProducts", nullable = false)
+    @Column(name = "name_products", nullable = false)
     public String getNameProduct() {
         return nameProduct;
     }
