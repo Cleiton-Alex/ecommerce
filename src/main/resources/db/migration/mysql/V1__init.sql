@@ -20,10 +20,9 @@ CREATE TABLE `products` (
   `id` bigint(20) NOT NULL,
   `categories_id` bigint(20)  NOT NULL,
   `salesman_id` bigint(20)  NOT NULL,
-  `nameProduct` varchar(255) NOT NULL,
+  `nameProducts` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `value` bigint(20) DEFAULT NULL,
-  `senha` varchar(255) NOT NULL,
   `status` bigint(20) DEFAULT NULL,
   `stock` bigint(20) DEFAULT NULL,
   `photo` varchar(255) NOT NULL
