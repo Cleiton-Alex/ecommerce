@@ -3,7 +3,6 @@ package projeto.ecommerce.dtos;
 import projeto.ecommerce.entities.User;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.Optional;
 
 public class SalesmanDto {
@@ -16,7 +15,7 @@ public class SalesmanDto {
     private String email;
     private User user;
     private String biography;
-    private  String selfPortrait;
+    private  String photo;
     private Integer status;
     private String senha;
 
@@ -94,12 +93,12 @@ public class SalesmanDto {
         this.biography = biography;
     }
 
-    public String getSelfPortrait() {
-        return selfPortrait;
+    public String getphoto() {
+        return photo;
     }
 
-    public void setSelfPortrait(String selfPortrait) {
-        this.selfPortrait = selfPortrait;
+    public void setphoto(String photo) {
+        this.photo = photo;
     }
 
     public Integer getStatus() {
@@ -131,7 +130,7 @@ public class SalesmanDto {
                 ", email='" + email + '\'' +
                 ", user=" + user +
                 ", biography='" + biography + '\'' +
-                ", selfPortrait='" + selfPortrait + '\'' +
+                ", photo='" + photo + '\'' +
                 ", status=" + status +
                 ", senha='" + senha + '\'' +
                 '}';

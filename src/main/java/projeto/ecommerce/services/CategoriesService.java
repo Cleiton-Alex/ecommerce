@@ -2,6 +2,7 @@ package projeto.ecommerce.services;
 
 import projeto.ecommerce.entities.Categories;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoriesService {
@@ -17,4 +18,6 @@ public interface CategoriesService {
     Optional<Categories> buscarPorId(Long id);
 
     Optional<Categories> buscarPorName(String name);
+
+     List<Categories> getAll();
 }

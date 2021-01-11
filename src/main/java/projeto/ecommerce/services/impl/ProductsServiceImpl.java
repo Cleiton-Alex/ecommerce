@@ -26,21 +26,21 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public Page<Products> buscarPorCategoiresOrProducts(Long categoriesId, String nameProducts, PageRequest pageRequest) {
-        log.info("Buscando Por categorias ID e name produtos: {}", categoriesId, nameProducts);
-        return this.productsRepository.findByCategoriesOrNameProduct(categoriesId,nameProducts, pageRequest);
+    public Page<Products> buscarPorCategoiresOrProducts(Long categoriesId, String names, PageRequest pageRequest) {
+        log.info("Buscando Por categorias ID e name produtos: {}", categoriesId, names);
+        return this.productsRepository.findByCategories(categoriesId, pageRequest);
     }
 
     @Override
-    public Page<Products> buscarPorSalesmanOrProducts(Long salesmanId, String nameProducts, PageRequest pageRequest) {
-        log.info("Buscando Por salesmans ID e name produtos: {}", salesmanId, nameProducts);
-        return this.productsRepository.findBySalesmanOrNameProduct(salesmanId,nameProducts, pageRequest);
+    public Page<Products> buscarPorSalesmanOrProducts(Long salesmanId, String names, PageRequest pageRequest) {
+        log.info("Buscando Por salesmans ID e name produtos: {}", salesmanId, names);
+        return this.productsRepository.findBySalesman(salesmanId, pageRequest);
     }
 
     @Override
     public Optional<Products> buscarPorNomeProduct(String nomeProduct) {
         log.info("Buscando Por nome do Product ID {}" , nomeProduct);
-        return Optional.ofNullable(this.productsRepository.findByNameProduct(nomeProduct));
+        return Optional.ofNullable(this.productsRepository.findByname(nomeProduct));
     }
 
     @Override

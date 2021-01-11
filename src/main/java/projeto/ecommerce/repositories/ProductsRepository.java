@@ -10,9 +10,9 @@ import projeto.ecommerce.entities.Products;
 
 public interface ProductsRepository extends JpaRepository<Products, Long> {
 
-   Page<Products> findByCategoriesOrNameProduct(@Param("categoriesId") Long categoriesId, String nameProducts, Pageable pageable);
-   Page<Products> findBySalesmanOrNameProduct(@Param("salesmanId") Long salesmanId, String nameProducts, Pageable pageable);
+   Page<Products> findByCategories(@Param("categoriesId") Long categoriesId, Pageable pageable);
+   Page<Products> findBySalesman(@Param("salesmanId") Long salesmanId, Pageable pageable);
 
-   Products findByNameProduct(String nameProduct);
+   Products findByname(String name);
 
 }

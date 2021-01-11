@@ -51,16 +51,16 @@ public class ProductsController {
     }
 
 
-    @GetMapping(value = "/name/{nameProduct}")
-    public ResponseEntity<Response<ProductsDto>> listarPorNome(@PathVariable("nameProduct") String nameProduct){
+    @GetMapping(value = "/name/{name}")
+    public ResponseEntity<Response<ProductsDto>> listarPorNome(@PathVariable("name") String name){
 
-        log.info("Buscando products Name Produto {}", nameProduct);
+        log.info("Buscando products Name Produto {}", name);
         Response<ProductsDto> response = new Response<>();
-        Optional<Products> products = this.productsService.buscarPorNomeProduct(nameProduct);
+        Optional<Products> products = this.productsService.buscarPorNomeProduct(name);
 
         if(!products.isPresent()){
-            log.info("Products não encontrado para o ID {}", nameProduct);
-            response.getErrors().add("Products não encontrado para o id" + nameProduct);
+            log.info("Products não encontrado para o ID {}", name);
+            response.getErrors().add("Products não encontrado para o id" + name);
             return ResponseEntity.badRequest().body(response);
 
         }
@@ -102,7 +102,7 @@ public class ProductsController {
         products.setCategories(productsDto.getCategories());
         products.setDescription(productsDto.getDescription());
         products.setId(productsDto.getId());
-        products.setNameProduct(productsDto.getNameProduct());
+        products.setname(productsDto.getname());
         products.setPhoto(productsDto.getPhoto());
         products.setSalesman(productsDto.getSalesman());
         products.setStatus(productsDto.getStatus());
@@ -123,7 +123,7 @@ public class ProductsController {
         productsDto.setCategories(products.getCategories());
         productsDto.setDescription(products.getDescription());
         productsDto.setId(products.getId());
-        productsDto.setNameProduct(products.getNameProduct());
+        productsDto.setname(products.getname());
         productsDto.setPhoto(products.getPhoto());
         productsDto.setSalesman(products.getSalesman());
         productsDto.setStatus(products.getStatus());

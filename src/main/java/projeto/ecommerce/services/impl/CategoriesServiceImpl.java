@@ -8,6 +8,7 @@ import projeto.ecommerce.entities.Categories;
 import projeto.ecommerce.repositories.CategoriesRepository;
 import projeto.ecommerce.services.CategoriesService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,11 @@ public class CategoriesServiceImpl implements CategoriesService {
     public Optional<Categories> buscarPorId(Long id) {
         log.info("Buscar Categories Por ID");
         return this.categoriesRepository.findById(id);
+    }
+
+    public List<Categories> getAll() {
+        log.info("Buscar Categories Por ID");
+        return this.categoriesRepository.findAll();
     }
 
     @Override

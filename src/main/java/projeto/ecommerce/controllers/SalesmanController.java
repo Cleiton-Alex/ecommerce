@@ -7,14 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import projeto.ecommerce.dtos.ProductsDto;
 import projeto.ecommerce.dtos.SalesmanDto;
-import projeto.ecommerce.entities.Products;
 import projeto.ecommerce.entities.Salesman;
-import projeto.ecommerce.enums.PerfilEnum;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.SalesmanService;
-import projeto.ecommerce.utils.PasswordUtils;
 
 import java.text.ParseException;
 import java.util.Optional;
@@ -105,7 +101,7 @@ public class SalesmanController {
 
         salesman.setUser(salesmanDto.getUser());
         salesman.setBiography(salesmanDto.getBiography());
-        salesman.setSelfPortrait(salesmanDto.getSelfPortrait());
+        salesman.setphoto(salesmanDto.getphoto());
         salesman.setStatus(salesmanDto.getStatus());
 
         return salesman;
@@ -125,7 +121,7 @@ public class SalesmanController {
         salesmanDto.setPhoneNumber(salesman.getPhoneNumber());
         salesmanDto.setUser(salesman.getUser());
         salesmanDto.setBiography(salesman.getBiography());
-        salesmanDto.setSelfPortrait(salesman.getSelfPortrait());
+        salesmanDto.setphoto(salesman.getphoto());
         salesmanDto.setStatus(salesman.getStatus());
 
         return salesmanDto;
