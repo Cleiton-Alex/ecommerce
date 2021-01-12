@@ -29,13 +29,13 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public Page<Products> buscarPorCategoiresOrProducts(Long categoriesId, String nameProducts, PageRequest pageRequest) {
         log.info("Buscando Por categorias ID e name produtos: {}", categoriesId);
-        return this.productsRepository.findByCategoriesIdAndNameProduct(categoriesId, nameProducts, pageRequest);
+        return this.productsRepository.findByCategoriesIdAndName(categoriesId, nameProducts, pageRequest);
     }
 
     @Override
     public Page<Products> buscarPorSalesmanOrProducts(Long salesmanId, String nameProducts, PageRequest pageRequest) {
         log.info("Buscando Por salesmans ID e name produtos: {}", salesmanId, nameProducts);
-        return this.productsRepository.findBySalesmanIdAndAndNameProduct(salesmanId,nameProducts, pageRequest);
+        return this.productsRepository.findBySalesmanIdAndName(salesmanId,nameProducts, pageRequest);
     }
 
     @Override
