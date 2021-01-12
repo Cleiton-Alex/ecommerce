@@ -8,6 +8,7 @@ import projeto.ecommerce.entities.Salesman;
 import projeto.ecommerce.repositories.SalesmanRepository;
 import projeto.ecommerce.services.SalesmanService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,9 +40,21 @@ public class SalesmanServiceImpl implements SalesmanService {
     }
 
     @Override
+    public Optional<Salesman> buscarPorStatus(Integer status) {
+        log.info("Buscando Salesman por Status: {}", status);
+        return Optional.ofNullable(this.salesmanRepository.findByStatus(status));
+    }
+
+    @Override
     public void remover(Long id) {
         log.info("Removendo Lançamento por ID {}", id);
         this.salesmanRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Salesman> buscarTodos() {
+        log.info("Buscar Todos Salesman ID {}");
+        return this.salesmanRepository.findAll();
     }
 
 }

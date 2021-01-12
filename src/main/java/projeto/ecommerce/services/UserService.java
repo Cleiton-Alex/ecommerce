@@ -1,8 +1,8 @@
 package projeto.ecommerce.services;
 
-import projeto.ecommerce.entities.Salesman;
 import projeto.ecommerce.entities.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -21,4 +21,6 @@ public interface UserService {
     Optional<User> buscarPorUser(String userName);
 
     void remover(Long id);
+
+    List<User> buscarTodos();
 }

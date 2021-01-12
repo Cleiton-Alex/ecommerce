@@ -7,17 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import projeto.ecommerce.dtos.ProductsDto;
 import projeto.ecommerce.dtos.SalesmanDto;
-import projeto.ecommerce.entities.Products;
 import projeto.ecommerce.entities.Salesman;
-import projeto.ecommerce.enums.PerfilEnum;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.SalesmanService;
-import projeto.ecommerce.utils.PasswordUtils;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -52,6 +49,12 @@ public class SalesmanController {
         }
         response.setData(this.converterSalesmanPraDTo(salesman.get()));
         return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping
+    public List<Salesman> listaSalesman(){
+       return this.salesmanService.buscarTodos();
     }
 
 

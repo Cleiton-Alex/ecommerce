@@ -8,14 +8,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import projeto.ecommerce.dtos.CategoriesDto;
-import projeto.ecommerce.dtos.SalesmanDto;
 import projeto.ecommerce.entities.Categories;
-import projeto.ecommerce.entities.Salesman;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.CategoriesService;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -67,6 +66,12 @@ public class CategoriesController {
 
         response.setData(this.converterCategoriesPraDTo(categories.get()));
         return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping
+    public List<Categories> listaSalesman(){
+        return this.categoriesService.buscarTodos();
     }
 
     @PostMapping

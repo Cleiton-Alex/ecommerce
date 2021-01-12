@@ -8,9 +8,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import projeto.ecommerce.dtos.SalesmanDto;
 import projeto.ecommerce.dtos.UserDto;
-import projeto.ecommerce.entities.Salesman;
+import projeto.ecommerce.entities.Products;
 import projeto.ecommerce.entities.User;
 import projeto.ecommerce.enums.PerfilEnum;
 import projeto.ecommerce.response.Response;
@@ -19,6 +18,7 @@ import projeto.ecommerce.utils.PasswordUtils;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -97,6 +97,11 @@ public class UserController {
         return ResponseEntity.ok(new Response<String>());
     }
 
+
+    @GetMapping
+    public List<User> listaSalesman(){
+        return this.userService.buscarTodos();
+    }
     private User converterDtoParaUser(UserDto userDto, BindingResult result) {
         User user = new User();
         user.setEmail(userDto.getEmail());

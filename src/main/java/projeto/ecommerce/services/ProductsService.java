@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import projeto.ecommerce.entities.Products;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductsService {
@@ -15,7 +16,7 @@ public interface ProductsService {
     Products pesistir(Products products);
 
 
-    Page<Products> buscarPorCategoiresOrProducts(Long categoriesId, String nameProducts, PageRequest pageRequest);
+    Page<Products> buscarPorCategoiresOrProducts(Long categoriesId, String namepProducts, PageRequest pageRequest);
 
 
     Page<Products> buscarPorSalesmanOrProducts(Long salesmanId, String nameProducts, PageRequest pageRequest);
@@ -25,4 +26,6 @@ public interface ProductsService {
     Optional<Products> buscarPorId(Long id);
 
     void remover(Long id);
+
+    List<Products> buscarTodos();
 }

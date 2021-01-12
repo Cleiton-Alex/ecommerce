@@ -4,19 +4,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import projeto.ecommerce.dtos.CategoriesDto;
 import projeto.ecommerce.dtos.ProductsDto;
-import projeto.ecommerce.entities.Categories;
 import projeto.ecommerce.entities.Products;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.ProductsService;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -52,6 +54,55 @@ public class ProductsController {
         response.setData(this.converterProductsPraDTo(products.get()));
         return ResponseEntity.ok(response);
     }
+
+
+    @GetMapping(value = "/categorias/{categoriesID}")
+    public ResponseEntity<Response<Page<ProductsDto>>> listarPorProdutosCategorias(
+            @PathVariable("categoriesID") Long categoriesID,
+            @RequestParam(value = "pag", defaultValue = "0") int pag,
+            @RequestParam(value = "ord", defaultValue = "id") String ord,
+            @RequestParam(value = "dir", defaultValue = "DESC") String dir,
+            @RequestParam (value = "categoria" , defaultValue = "") String nomeProducts) {
+        log.info("Buscando lançamentos por ID do funcionário: {}, página: {}", categoriesID, pag);
+        Response<Page<ProductsDto>> response = new Response<Page<ProductsDto>>();
+
+        PageRequest pageRequest = PageRequest.of(pag, this.qtdPorPagina, Sort.Direction.valueOf(dir), ord);
+
+        Page<Products> products = this.productsService.buscarPorCategoiresOrProducts(categoriesID,nomeProducts, pageRequest);
+        Page<ProductsDto> productsDtos = products.map(products1 -> this.converterProductsPraDTo(products1));
+
+        response.setData(productsDtos);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping(value = "/salesman/{salesmanID}")
+    public ResponseEntity<Response<Page<ProductsDto>>> listarPorProdutoSalesman(
+            @PathVariable("salesmanID") Long salesmanID,
+            @RequestParam(value = "pag", defaultValue = "0") int pag,
+            @RequestParam(value = "ord", defaultValue = "id") String ord,
+            @RequestParam(value = "dir", defaultValue = "DESC") String dir,
+            @RequestParam (value = "salesman" , defaultValue = "") String nomesalesman) {
+        log.info("Buscando lançamentos por ID do funcionário: {}, página: {}", salesmanID, pag);
+        Response<Page<ProductsDto>> response = new Response<Page<ProductsDto>>();
+
+        PageRequest pageRequest = PageRequest.of(pag, this.qtdPorPagina, Sort.Direction.valueOf(dir), ord);
+
+        Page<Products> products = this.productsService.buscarPorSalesmanOrProducts(salesmanID,nomesalesman, pageRequest);
+        Page<ProductsDto> productsDtos = products.map(products1 -> this.converterProductsPraDTo(products1));
+
+        response.setData(productsDtos);
+        return ResponseEntity.ok(response);
+    }
+
+
+
+    @GetMapping
+    public List<Products> listaSalesman(){
+        return this.productsService.buscarTodos();
+    }
+
+
 
 
     @GetMapping(value = "/name/{nameProduct}")

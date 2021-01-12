@@ -8,5 +8,7 @@ public interface SalesmanRepository extends JpaRepository<Salesman, Long> {
     Salesman findByFullName(String fullName);
     Salesman findByCpf(String cpf);
 
+    Salesman findByStatus(Integer status);
+
 
 }

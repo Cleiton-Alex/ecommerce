@@ -4,11 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import projeto.ecommerce.entities.Salesman;
 import projeto.ecommerce.entities.User;
 import projeto.ecommerce.repositories.UserRepository;
 import projeto.ecommerce.services.UserService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,5 +48,10 @@ public class UserServiceImpl implements UserService {
     public void remover(Long id) {
         log.info("Removendo Lançamento por ID {}", id);
         this.userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<User> buscarTodos() {
+        return this.userRepository.findAll();
     }
 }

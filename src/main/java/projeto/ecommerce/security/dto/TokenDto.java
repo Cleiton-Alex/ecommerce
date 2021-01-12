@@ -3,6 +3,7 @@ package projeto.ecommerce.security.dto;
 public class TokenDto {
 
     private String token;
+    private Long id;
 
     public TokenDto() {
     }

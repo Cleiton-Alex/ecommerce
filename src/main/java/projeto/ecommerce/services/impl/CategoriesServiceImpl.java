@@ -8,6 +8,7 @@ import projeto.ecommerce.entities.Categories;
 import projeto.ecommerce.repositories.CategoriesRepository;
 import projeto.ecommerce.services.CategoriesService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,6 +40,11 @@ public class CategoriesServiceImpl implements CategoriesService {
     public void remover(Long id) {
         log.info("Removendo Lançamento por ID {}", id);
         this.categoriesRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Categories> buscarTodos() {
+        return this.categoriesRepository.findAll();
     }
 
 }
