@@ -144,7 +144,7 @@ public class SalesmanController {
 
         salesman.setUser(salesmanDto.getUser());
         salesman.setBiography(salesmanDto.getBiography());
-        salesman.setSelfPortrait(salesmanDto.getSelfPortrait());
+        salesman.setphoto(salesmanDto.getphoto());
         salesman.setStatus(salesmanDto.getStatus());
 
         return salesman;
@@ -164,7 +164,7 @@ public class SalesmanController {
         salesmanDto.setPhoneNumber(salesman.getPhoneNumber());
         salesmanDto.setUser(salesman.getUser());
         salesmanDto.setBiography(salesman.getBiography());
-        salesmanDto.setSelfPortrait(salesman.getSelfPortrait());
+        salesmanDto.setphoto(salesman.getphoto());
         salesmanDto.setStatus(salesman.getStatus());
 
         return salesmanDto;

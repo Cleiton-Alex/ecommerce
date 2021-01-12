@@ -41,7 +41,7 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public Optional<Products> buscarPorNomeProduct(String nomeProduct) {
         log.info("Buscando Por nome do Product ID {}" , nomeProduct);
-        return Optional.ofNullable(this.productsRepository.findByNameProduct(nomeProduct));
+        return Optional.ofNullable(this.productsRepository.findByname(nomeProduct));
     }
 
     @Override

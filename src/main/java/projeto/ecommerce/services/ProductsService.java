@@ -16,10 +16,10 @@ public interface ProductsService {
     Products pesistir(Products products);
 
 
-    Page<Products> buscarPorCategoiresOrProducts(Long categoriesId, String namepProducts, PageRequest pageRequest);
+    Page<Products> buscarPorCategoiresOrProducts(Long categoriesId, String names, PageRequest pageRequest);
 
 
-    Page<Products> buscarPorSalesmanOrProducts(Long salesmanId, String nameProducts, PageRequest pageRequest);
+    Page<Products> buscarPorSalesmanOrProducts(Long salesmanId, String names, PageRequest pageRequest);
 
     Optional<Products> buscarPorNomeProduct(String nomeProduct);
 

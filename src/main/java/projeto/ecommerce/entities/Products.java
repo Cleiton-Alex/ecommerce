@@ -2,7 +2,6 @@ package projeto.ecommerce.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
@@ -13,7 +12,7 @@ public class Products implements Serializable {
     private Long id;
     private Categories categories;
     private Salesman salesman;
-    private  String nameProduct;
+    private  String name;
     private String description;
     private Integer value;
     private Integer status;
@@ -32,7 +31,7 @@ public class Products implements Serializable {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     public Categories getCategories() {
         return categories;
     }
@@ -41,7 +40,7 @@ public class Products implements Serializable {
         this.categories = categories;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     public Salesman getSalesman() {
         return salesman;
     }
@@ -50,13 +49,13 @@ public class Products implements Serializable {
         this.salesman = salesman;
     }
 
-    @Column(name = "name_products", nullable = false)
-    public String getNameProduct() {
-        return nameProduct;
+    @Column(name = "name", nullable = false)
+    public String getname() {
+        return name;
     }
 
-    public void setNameProduct(String nameProduct) {
-        this.nameProduct = nameProduct;
+    public void setname(String name) {
+        this.name = name;
     }
 
     @Column(name = "description", nullable = false)
@@ -112,7 +111,7 @@ public class Products implements Serializable {
         return Objects.equals(id, products.id) &&
                 Objects.equals(categories, products.categories) &&
                 Objects.equals(salesman, products.salesman) &&
-                Objects.equals(nameProduct, products.nameProduct) &&
+                Objects.equals(name, products.name) &&
                 Objects.equals(description, products.description) &&
                 Objects.equals(value, products.value) &&
                 Objects.equals(status, products.status) &&
@@ -122,7 +121,7 @@ public class Products implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, categories, salesman, nameProduct, description, value, status, stock, photo);
+        return Objects.hash(id, categories, salesman, name, description, value, status, stock, photo);
     }
 
 
@@ -132,7 +131,7 @@ public class Products implements Serializable {
                 "id=" + id +
                 ", categories=" + categories +
                 ", salesman=" + salesman +
-                ", nameProduct='" + nameProduct + '\'' +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", value=" + value +
                 ", status=" + status +

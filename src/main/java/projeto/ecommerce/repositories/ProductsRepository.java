@@ -26,6 +26,6 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
    Page<Products> findByCategoriesIdAndNameProduct(@Param("categoriesID") Long categoriesId, String nameProducts, Pageable pageable);
    Page<Products> findBySalesmanIdAndAndNameProduct(@Param("salesmanID") Long salesmanId, String nameProducts, Pageable pageable);
 
-   Products findByNameProduct(String nameProduct);
+   Products findByname(String name);
 
 }

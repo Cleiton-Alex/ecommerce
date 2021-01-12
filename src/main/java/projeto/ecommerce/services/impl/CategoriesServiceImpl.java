@@ -30,6 +30,11 @@ public class CategoriesServiceImpl implements CategoriesService {
         return this.categoriesRepository.findById(id);
     }
 
+    public List<Categories> getAll() {
+        log.info("Buscar Categories Por ID");
+        return this.categoriesRepository.findAll();
+    }
+
     @Override
     public Optional<Categories> buscarPorName(String name) {
         return Optional.empty();

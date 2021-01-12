@@ -1,12 +1,9 @@
 package projeto.ecommerce.entities;
 
-import projeto.ecommerce.enums.PerfilEnum;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +21,7 @@ public class Salesman implements Serializable {
     private String phoneNumber;
     private User user;
     private String biography;
-    private String selfPortrait;
+    private String photo;
     private Integer status;
     private List<Products> products = new ArrayList<>();
 
@@ -99,13 +96,13 @@ public class Salesman implements Serializable {
         this.user = user;
     }
 
-    @Column(name = "getSelf_portrait", nullable = false)
-    public String getSelfPortrait() {
-        return selfPortrait;
+    @Column(name = "photo", nullable = false)
+    public String getphoto() {
+        return photo;
     }
 
-    public void setSelfPortrait(String selfPortrait) {
-        this.selfPortrait = selfPortrait;
+    public void setphoto(String photo) {
+        this.photo = photo;
     }
 
     @Column(name = "status", nullable = false)
@@ -140,14 +137,14 @@ public class Salesman implements Serializable {
                 Objects.equals(phoneNumber, salesman.phoneNumber) &&
                 Objects.equals(user, salesman.user) &&
                 Objects.equals(biography, salesman.biography) &&
-                Objects.equals(selfPortrait, salesman.selfPortrait) &&
+                Objects.equals(photo, salesman.photo) &&
                 Objects.equals(status, salesman.status) &&
                 Objects.equals(products, salesman.products);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fullName, cpf, operation, accountType, phoneNumber, user, biography, selfPortrait, status, products);
+        return Objects.hash(id, fullName, cpf, operation, accountType, phoneNumber, user, biography, photo, status, products);
     }
 
     @Override
@@ -161,7 +158,7 @@ public class Salesman implements Serializable {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", user=" + user +
                 ", biography='" + biography + '\'' +
-                ", selfPortrait='" + selfPortrait + '\'' +
+                ", photo='" + photo + '\'' +
                 ", status=" + status +
                 ", products=" + products +
                 '}';

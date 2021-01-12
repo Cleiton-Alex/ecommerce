@@ -3,15 +3,13 @@ package projeto.ecommerce.dtos;
 import projeto.ecommerce.entities.Categories;
 import projeto.ecommerce.entities.Salesman;
 
-import java.util.Arrays;
-
 public class ProductsDto {
 
 
     private Long id;
     private Categories categories;
     private Salesman salesman;
-    private  String nameProduct;
+    private  String name;
     private String description;
     private Integer value;
     private Integer status;
@@ -43,12 +41,12 @@ public class ProductsDto {
         this.salesman = salesman;
     }
 
-    public String getNameProduct() {
-        return nameProduct;
+    public String getname() {
+        return name;
     }
 
-    public void setNameProduct(String nameProduct) {
-        this.nameProduct = nameProduct;
+    public void setname(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -98,7 +96,7 @@ public class ProductsDto {
                 "id=" + id +
                 ", categories=" + categories +
                 ", salesman=" + salesman +
-                ", nameProduct='" + nameProduct + '\'' +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", value=" + value +
                 ", status=" + status +

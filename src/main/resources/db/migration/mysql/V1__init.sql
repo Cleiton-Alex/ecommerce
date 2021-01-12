@@ -9,7 +9,7 @@ CREATE TABLE `salesman` (
   `user_id` bigint(20) NOT NULL,
   `phone_number` varchar(255) NOT NULL,
   `biography` varchar(255) NOT NULL,
-  `getSelf_portrait` varchar(255) NOT NULL,
+  `photo` varchar(255) ,
   `status` bigint(20) NOT NULL
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -20,12 +20,12 @@ CREATE TABLE `products` (
   `id` bigint(20) NOT NULL,
   `categories_id` bigint(20)  NOT NULL,
   `salesman_id` bigint(20)  NOT NULL,
-  `name_products` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `value` bigint(20) DEFAULT NULL,
   `status` bigint(20) DEFAULT NULL,
   `stock` bigint(20) DEFAULT NULL,
-  `photo` varchar(255) NOT NULL
+  `photo` varchar(255)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -8,12 +8,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import projeto.ecommerce.dtos.CategoriesDto;
+import projeto.ecommerce.dtos.SalesmanDto;
 import projeto.ecommerce.entities.Categories;
+import projeto.ecommerce.entities.Salesman;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.CategoriesService;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +34,16 @@ public class CategoriesController {
     public CategoriesController(){
 
     }
+    @CrossOrigin
+    @GetMapping(value = "/listar")
+    public ResponseEntity<Response<List<CategoriesDto>>> getAll(){
 
-
+        log.info("Buscando por id: {}");
+        Response<List<CategoriesDto>> response = new Response<>();
+        List<Categories> categories = categoriesService.getAll();
+        response.setData(this.converterCategoriesPraDToList(categories));
+        return ResponseEntity.ok(response);
+    }
     @GetMapping(value = "/{id}")
     public ResponseEntity<Response<CategoriesDto>> buscarPorId(@PathVariable("id") Long id){
 
@@ -152,6 +163,18 @@ public class CategoriesController {
         categoriesDto.setId(categories.getId());
         categoriesDto.setName(categories.getName());
 
+        return categoriesDto;
+
+    }
+    private List<CategoriesDto> converterCategoriesPraDToList(List<Categories> categories){
+
+        List<CategoriesDto> categoriesDto = new ArrayList<>();
+        for(Categories categorie : categories){
+            CategoriesDto categoriesDto1 = new CategoriesDto();
+            categoriesDto1.setId(categorie.getId());
+            categoriesDto1.setName(categorie.getName());
+            categoriesDto.add(categoriesDto1);
+        }
         return categoriesDto;
 
     }
