@@ -31,7 +31,7 @@ public class Products implements Serializable {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     public Categories getCategories() {
         return categories;
     }
@@ -40,7 +40,7 @@ public class Products implements Serializable {
         this.categories = categories;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     public Salesman getSalesman() {
         return salesman;
     }

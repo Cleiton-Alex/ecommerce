@@ -31,8 +31,8 @@ public class CategoriesController {
     public CategoriesController(){
 
     }
-
-    @GetMapping(value = "/")
+    @CrossOrigin
+    @GetMapping(value = "/listar")
     public ResponseEntity<Response<List<CategoriesDto>>> getAll(){
 
         log.info("Buscando por id: {}");
