@@ -192,7 +192,7 @@ public class ProductsController {
         products.setCategories(productsDto.getCategories());
         products.setDescription(productsDto.getDescription());
         products.setId(productsDto.getId());
-        products.setNameProduct(productsDto.getNameProduct());
+        products.setname(productsDto.getname());
         products.setPhoto(productsDto.getPhoto());
         products.setSalesman(productsDto.getSalesman());
         products.setStatus(productsDto.getStatus());
@@ -213,7 +213,7 @@ public class ProductsController {
         productsDto.setCategories(products.getCategories());
         productsDto.setDescription(products.getDescription());
         productsDto.setId(products.getId());
-        productsDto.setNameProduct(products.getNameProduct());
+        productsDto.setname(products.getname());
         productsDto.setPhoto(products.getPhoto());
         productsDto.setSalesman(products.getSalesman());
         productsDto.setStatus(products.getStatus());

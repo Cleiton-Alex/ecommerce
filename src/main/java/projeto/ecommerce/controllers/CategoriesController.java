@@ -34,16 +34,7 @@ public class CategoriesController {
     public CategoriesController(){
 
     }
-    @CrossOrigin
-    @GetMapping(value = "/listar")
-    public ResponseEntity<Response<List<CategoriesDto>>> getAll(){
 
-        log.info("Buscando por id: {}");
-        Response<List<CategoriesDto>> response = new Response<>();
-        List<Categories> categories = categoriesService.getAll();
-        response.setData(this.converterCategoriesPraDToList(categories));
-        return ResponseEntity.ok(response);
-    }
     @GetMapping(value = "/{id}")
     public ResponseEntity<Response<CategoriesDto>> buscarPorId(@PathVariable("id") Long id){
 
