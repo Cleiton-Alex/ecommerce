@@ -1,5 +1,7 @@
 package projeto.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -88,6 +90,8 @@ public class Salesman implements Serializable {
     }
 
     @OneToOne(mappedBy = "salesman", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     public User getUser() {
         return user;
     }

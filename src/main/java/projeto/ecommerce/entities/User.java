@@ -1,5 +1,6 @@
 package projeto.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import projeto.ecommerce.enums.PerfilEnum;
 
 import javax.persistence.*;
@@ -30,6 +31,7 @@ public class User implements Serializable {
     }
 
     @OneToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     public Salesman getSalesman() {
         return salesman;
     }

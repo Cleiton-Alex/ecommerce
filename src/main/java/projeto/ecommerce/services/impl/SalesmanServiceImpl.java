@@ -57,4 +57,10 @@ public class SalesmanServiceImpl implements SalesmanService {
         return this.salesmanRepository.findAll();
     }
 
+    @Override
+    public Optional<Salesman> buscarSalesmanUser(Long id) {
+        log.info("Buscar Salesman pelo ID User {}");
+        return Optional.ofNullable(this.salesmanRepository.findByUser_Id(id));
+    }
+
 }

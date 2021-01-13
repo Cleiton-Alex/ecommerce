@@ -24,5 +24,7 @@ public interface SalesmanService {
 
     List <Salesman> buscarTodos();
 
+    Optional<Salesman> buscarSalesmanUser(Long id);
+
 
 }
