@@ -8,11 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import projeto.ecommerce.dtos.CategoriesDto;
-import projeto.ecommerce.dtos.SalesmanDto;
 import projeto.ecommerce.entities.Categories;
-import projeto.ecommerce.entities.Salesman;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.CategoriesService;
+import projeto.ecommerce.utils.AwsAmazom;
 
 import javax.validation.Valid;
 import java.text.ParseException;
@@ -29,7 +28,8 @@ public class CategoriesController {
 
     @Autowired
     private CategoriesService categoriesService;
-
+    @Autowired
+    private AwsAmazom awsAmazom;
 
     public CategoriesController(){
 
@@ -72,8 +72,9 @@ public class CategoriesController {
 
 
     @GetMapping
-    public List<Categories> listaSalesman(){
-        return this.categoriesService.buscarTodos();
+    public List<CategoriesDto> listaSalesman(){
+
+        return this.converterCategoriesPraDToList(this.categoriesService.buscarTodos());
     }
 
     @PostMapping

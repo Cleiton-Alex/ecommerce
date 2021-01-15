@@ -9,7 +9,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import projeto.ecommerce.dtos.UserDto;
-import projeto.ecommerce.entities.Products;
 import projeto.ecommerce.entities.User;
 import projeto.ecommerce.enums.PerfilEnum;
 import projeto.ecommerce.response.Response;
@@ -38,7 +37,21 @@ public class UserController {
 
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Response<UserDto>> listaPorId(@PathVariable("id") Long id){
+        log.info("Buscando usuarios por ID {}", id);
+        Response<UserDto> response = new Response<>();
+        Optional<User> user = this.userService.buscarPorId(id);
 
+        if(!user.isPresent()){
+            log.info("usuarios não encontrado para o ID {}", id);
+            response.getErrors().add("usuario não encontrado para o id" + id);
+            return ResponseEntity.badRequest().body(response);
+
+        }
+        response.setData(this.converterUserPraDTo(user.get()));
+        return ResponseEntity.ok(response);
+    }
     @PostMapping
     public ResponseEntity<Response<UserDto>> cadastrar(@Validated @RequestBody UserDto userDto,
                                                        BindingResult result) throws ParseException{
@@ -151,6 +164,9 @@ public class UserController {
         userDto.setPerfil(user.getPerfil());
         userDto.setSenha(user.getSenha());
         userDto.setUserName(user.getUserName());
+        if(user.getSalesman()!= null) {
+            userDto.setSalesman_id(user.getSalesman().getId());
+        }
         return userDto;
 
     }

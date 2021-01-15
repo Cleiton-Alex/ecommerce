@@ -11,13 +11,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import projeto.ecommerce.dtos.CategoriesDto;
 import projeto.ecommerce.dtos.ProductsDto;
+import projeto.ecommerce.entities.Categories;
 import projeto.ecommerce.entities.Products;
+import projeto.ecommerce.repositories.SalesmanRepository;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.ProductsService;
+import projeto.ecommerce.services.SalesmanService;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +37,11 @@ public class ProductsController {
     private int qtdPorPagina;
     @Autowired
     private ProductsService productsService;
+    @Autowired
+    private SalesmanRepository salesmanRepository;
 
+    @Autowired
+    private SalesmanService salesmanService;
 
     private ProductsController(){
 
@@ -54,7 +63,14 @@ public class ProductsController {
         response.setData(this.converterProductsPraDTo(products.get()));
         return ResponseEntity.ok(response);
     }
-
+    @GetMapping(value = "/listar/{id}")
+    public ResponseEntity<Response<List<ProductsDto>>> listaPorSalesmanId(@PathVariable("id") Long id){
+        log.info("Buscando products por Salesman ID {}", id);
+        Response<List<ProductsDto>> response = new Response<>();
+        List<Products> products = this.productsService.findBySalesmanId(id);
+        response.setData(this.converterProductsPraDToList(products));
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping(value = "/categorias/{categoriesID}")
     public ResponseEntity<Response<Page<ProductsDto>>> listarPorProdutosCategorias(
@@ -151,10 +167,11 @@ public class ProductsController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Response<ProductsDto>> atualizar(@PathVariable("id") Long id,
-                                                             @Valid @RequestBody ProductsDto productsDto, BindingResult result) throws ParseException {
+                                                           @Valid @RequestBody ProductsDto productsDto, BindingResult result) throws ParseException {
         log.info("Atualizando lançamento: {}", productsDto.toString());
         Response<ProductsDto> response = new Response<ProductsDto>();
         productsDto.setId(id);
+        productsDto.setSalesman(this.salesmanService.buscarPorId(productsDto.getSalesman().getId()).get());
         Products products = this.converterDtoParaProducts(productsDto, result);
 
         if (result.hasErrors()) {
@@ -169,7 +186,6 @@ public class ProductsController {
     }
 
     @DeleteMapping(value = "/{id}")
-
     public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id) {
         log.info("Removendo lançamento: {}", id);
         Response<String> response = new Response<String>();
@@ -189,7 +205,7 @@ public class ProductsController {
 
         Products products = new Products();
 
-        products.setCategories(productsDto.getCategories());
+        products.setCategories(this.converterDtoParaCategories(productsDto.getCategories(),null));
         products.setDescription(productsDto.getDescription());
         products.setId(productsDto.getId());
         products.setname(productsDto.getname());
@@ -210,18 +226,58 @@ public class ProductsController {
 
         ProductsDto productsDto = new ProductsDto();
 
-        productsDto.setCategories(products.getCategories());
+        productsDto.setCategories(this.converterCategoriesPraDTo(products.getCategories()));
         productsDto.setDescription(products.getDescription());
         productsDto.setId(products.getId());
         productsDto.setname(products.getname());
         productsDto.setPhoto(products.getPhoto());
-        productsDto.setSalesman(products.getSalesman());
         productsDto.setStatus(products.getStatus());
         productsDto.setStock(products.getStock());
         productsDto.setValue(products.getValue());
 
 
         return productsDto;
+
+    }
+    private List<ProductsDto> converterProductsPraDToList(List<Products> products){
+
+        List<ProductsDto> productsDtos = new ArrayList<>();
+        for(Products product : products){
+            ProductsDto productsDto = new ProductsDto();
+            productsDto.setCategories(this.converterCategoriesPraDTo(product.getCategories()));
+            productsDto.setDescription(product.getDescription());
+            productsDto.setId(product.getId());
+            productsDto.setname(product.getname());
+            productsDto.setPhoto(product.getPhoto());
+            productsDto.setStatus(product.getStatus());
+            productsDto.setStock(product.getStock());
+            productsDto.setValue(product.getValue());
+            productsDtos.add(productsDto);
+        }
+        return productsDtos;
+
+    }
+    private Categories converterDtoParaCategories(CategoriesDto categoriesDto, BindingResult result) throws ParseException {
+
+        Categories categories = new Categories();
+
+        categories.setId(categoriesDto.getId());
+        categories.setName(categoriesDto.getName());
+
+        return categories;
+
+    }
+
+
+
+    private CategoriesDto converterCategoriesPraDTo(Categories categories){
+
+        CategoriesDto categoriesDto = new CategoriesDto();
+
+        categoriesDto.setId(categories.getId());
+        categoriesDto.setName(categories.getName());
+
+        return categoriesDto;
 
     }
 }

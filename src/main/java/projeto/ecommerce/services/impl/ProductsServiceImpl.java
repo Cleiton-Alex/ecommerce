@@ -61,4 +61,11 @@ public class ProductsServiceImpl implements ProductsService {
         return this.productsRepository.findAll();
     }
 
+    @Override
+    public List<Products> findBySalesmanId(Long id) {
+        log.info("Buscando Products Por Salesman ID {}", id);
+        return this.productsRepository.findBySalesmanId(id);
+    }
+
+
 }

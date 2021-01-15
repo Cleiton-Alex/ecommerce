@@ -28,4 +28,6 @@ public interface ProductsService {
     void remover(Long id);
 
     List<Products> buscarTodos();
+
+    List<Products> findBySalesmanId(Long id);
 }

@@ -11,15 +11,14 @@ public class SalesmanDto {
     private String cpf;
     private BigInteger operation;
     private Integer accountType;
+    private Integer agency;
     private String phoneNumber;
     private String email;
     private User user;
     private String biography;
-    private  String photo;
+    private String photo;
     private Integer status;
     private String senha;
-
-
 
     public Optional<Long> getId() {
         return id;
@@ -55,6 +54,14 @@ public class SalesmanDto {
 
     public Integer getAccountType() {
         return accountType;
+    }
+
+    public Integer getAgency() {
+        return agency;
+    }
+
+    public void setAgency(Integer agency) {
+        this.agency = agency;
     }
 
     public void setAccountType(Integer accountType) {

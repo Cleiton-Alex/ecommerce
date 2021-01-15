@@ -9,11 +9,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import projeto.ecommerce.dtos.SalesmanDto;
 import projeto.ecommerce.entities.Salesman;
+import projeto.ecommerce.entities.User;
+import projeto.ecommerce.enums.PerfilEnum;
 import projeto.ecommerce.response.Response;
 import projeto.ecommerce.services.SalesmanService;
+import projeto.ecommerce.services.UserService;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +31,8 @@ public class SalesmanController {
     @Autowired
     private SalesmanService salesmanService;
 
+    @Autowired
+    private UserService userService;
 
     public SalesmanController(){
 
@@ -50,11 +56,29 @@ public class SalesmanController {
         response.setData(this.converterSalesmanPraDTo(salesman.get()));
         return ResponseEntity.ok(response);
     }
+    @GetMapping(value = "/ativar/{id}")
+    public ResponseEntity<Response<SalesmanDto>> ativarSalesman(@PathVariable("id") Long id){
+        log.info("Buscando Salesman por ID {}", id);
+        Response<SalesmanDto> response = new Response<>();
+        Optional<Salesman> salesman = this.salesmanService.buscarPorId(id);
+        Salesman salesmanAux = salesman.get();
+        salesmanAux.setStatus(1);
+
+        if(!salesman.isPresent()){
+            log.info("Salesman não encontrado para o ID {}", id);
+            response.getErrors().add("Salesman não encontrado para o id:" + id);
+            return ResponseEntity.badRequest().body(response);
+
+        }
+        salesmanAux = this.salesmanService.pesistir(salesmanAux);
+        response.setData(this.converterSalesmanPraDTo(salesmanAux));
+        return ResponseEntity.ok(response);
+    }
 
 
     @GetMapping
-    public List<Salesman> listaSalesman(){
-       return this.salesmanService.buscarTodos();
+    public List<SalesmanDto> listaSalesman(){
+       return this.converterSalesmanPraDToList(this.salesmanService.buscarTodos());
     }
 
 
@@ -81,6 +105,13 @@ public class SalesmanController {
 
         log.info("Cadastrando salesman: {}", salesmanDto.toString());
         Response<SalesmanDto> response = new Response<SalesmanDto>();
+        User user = new User();
+        user.setEmail(salesmanDto.getEmail());
+        user.setSenha(salesmanDto.getSenha());
+        user.setUserName(salesmanDto.getFullName());
+        user.setPerfil(PerfilEnum.ROLE_USUARIO);
+        user = this.userService.pesistir(user);
+        salesmanDto.setUser(user);
         Salesman salesman = this.converterDtoParaSalesman(salesmanDto, result);
 
         if (result.hasErrors()) {
@@ -90,7 +121,10 @@ public class SalesmanController {
         }
 
         salesman = this.salesmanService.pesistir(salesman);
+        user.setSalesman(salesman);
+        user = this.userService.pesistir(user);
         response.setData(this.converterSalesmanPraDTo(salesman));
+
         return ResponseEntity.ok(response);
 
     }
@@ -102,6 +136,14 @@ public class SalesmanController {
         log.info("Atualizando lançamento: {}", salesmanDto.toString());
         Response<SalesmanDto> response = new Response<SalesmanDto>();
         salesmanDto.setId(Optional.of(id));
+        User user = new User();
+        user.setId(salesmanDto.getUser().getId());
+        user.setEmail(salesmanDto.getUser().getEmail());
+        user.setSenha(salesmanDto.getUser().getSenha());
+        user.setUserName(salesmanDto.getFullName());
+        user.setPerfil(salesmanDto.getUser().getPerfil());
+        user = this.userService.pesistir(user);
+        salesmanDto.setUser(user);
         Salesman salesman = this.converterDtoParaSalesman(salesmanDto, result);
 
         if (result.hasErrors()) {
@@ -109,8 +151,9 @@ public class SalesmanController {
             result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
             return ResponseEntity.badRequest().body(response);
         }
-
         salesman = this.salesmanService.pesistir(salesman);
+        user.setSalesman(salesman);
+        user = this.userService.pesistir(user);
         response.setData(this.converterSalesmanPraDTo(salesman));
         return ResponseEntity.ok(response);
     }
@@ -135,17 +178,17 @@ public class SalesmanController {
     private Salesman converterDtoParaSalesman(SalesmanDto salesmanDto, BindingResult result) throws ParseException {
 
         Salesman salesman = new Salesman();
-
+        salesman.setId(salesmanDto.getId().get());
         salesman.setFullName(salesmanDto.getFullName());
         salesman.setCpf(salesmanDto.getCpf());
         salesman.setOperation(salesmanDto.getOperation());
         salesman.setAccountType(salesmanDto.getAccountType());
         salesman.setPhoneNumber(salesmanDto.getPhoneNumber());
-
         salesman.setUser(salesmanDto.getUser());
         salesman.setBiography(salesmanDto.getBiography());
         salesman.setphoto(salesmanDto.getphoto());
-        salesman.setStatus(salesmanDto.getStatus());
+        salesman.setStatus(0);
+        salesman.setAgency(salesmanDto.getAgency());
 
         return salesman;
 
@@ -166,8 +209,35 @@ public class SalesmanController {
         salesmanDto.setBiography(salesman.getBiography());
         salesmanDto.setphoto(salesman.getphoto());
         salesmanDto.setStatus(salesman.getStatus());
+        salesmanDto.setAgency(salesman.getAgency());
+
 
         return salesmanDto;
+
+    }
+    private List<SalesmanDto> converterSalesmanPraDToList(List<Salesman> salesmens){
+
+        List<SalesmanDto> salesmanDtolist = new ArrayList<>();
+        for(Salesman salesman : salesmens){
+            if(salesman.getUser()!=null) {
+
+                SalesmanDto salesmanDto = new SalesmanDto();
+                salesmanDto.setId(Optional.of(salesman.getId()));
+                salesmanDto.setFullName(salesman.getFullName());
+                salesmanDto.setCpf(salesman.getCpf());
+                salesmanDto.setOperation(salesman.getOperation());
+                salesmanDto.setAccountType(salesman.getAccountType());
+                salesmanDto.setPhoneNumber(salesman.getPhoneNumber());
+                salesmanDto.setEmail(salesman.getUser().getEmail());
+                salesmanDto.setAgency(salesman.getAgency());
+                salesmanDto.setBiography(salesman.getBiography());
+                salesmanDto.setphoto(salesman.getphoto());
+                salesmanDto.setStatus(salesman.getStatus());
+                salesmanDto.setAgency(salesman.getAgency());
+                salesmanDtolist.add(salesmanDto);
+            }
+        }
+        return salesmanDtolist;
 
     }
 }

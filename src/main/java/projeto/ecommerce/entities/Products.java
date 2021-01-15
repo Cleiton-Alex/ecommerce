@@ -1,5 +1,7 @@
 package projeto.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -31,7 +33,7 @@ public class Products implements Serializable {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     public Categories getCategories() {
         return categories;
     }
@@ -40,11 +42,11 @@ public class Products implements Serializable {
         this.categories = categories;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     public Salesman getSalesman() {
         return salesman;
     }
-
+    @JsonIgnore
     public void setSalesman(Salesman salesman) {
         this.salesman = salesman;
     }

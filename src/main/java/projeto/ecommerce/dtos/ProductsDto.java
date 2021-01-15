@@ -1,13 +1,12 @@
 package projeto.ecommerce.dtos;
 
-import projeto.ecommerce.entities.Categories;
 import projeto.ecommerce.entities.Salesman;
 
 public class ProductsDto {
 
 
     private Long id;
-    private Categories categories;
+    private CategoriesDto categories;
     private Salesman salesman;
     private  String name;
     private String description;
@@ -25,20 +24,20 @@ public class ProductsDto {
         this.id = id;
     }
 
-    public Categories getCategories() {
+    public CategoriesDto getCategories() {
         return categories;
     }
 
-    public void setCategories(Categories categories) {
+    public void setCategories(CategoriesDto categories) {
         this.categories = categories;
-    }
-
-    public Salesman getSalesman() {
-        return salesman;
     }
 
     public void setSalesman(Salesman salesman) {
         this.salesman = salesman;
+    }
+
+    public Salesman getSalesman() {
+        return salesman;
     }
 
     public String getname() {

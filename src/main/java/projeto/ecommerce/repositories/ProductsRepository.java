@@ -9,7 +9,7 @@ import projeto.ecommerce.entities.Products;
 
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-
+import java.util.List;
 
 
 @Transactional(readOnly = true)
@@ -23,6 +23,9 @@ import javax.persistence.NamedQuery;
 
 public interface ProductsRepository extends JpaRepository<Products, Long> {
 
+   Page<Products> findByCategories(@Param("categoriesId") Long categoriesId, Pageable pageable);
+   Page<Products> findBySalesman(@Param("salesmanId") Long salesmanId, Pageable pageable);
+   List<Products> findBySalesmanId(Long id);
    Page<Products> findByCategoriesIdAndName(@Param("categoriesID") Long categoriesId, String nameProducts, Pageable pageable);
    Page<Products> findBySalesmanIdAndName(@Param("salesmanID") Long salesmanId, String nameProducts, Pageable pageable);
 

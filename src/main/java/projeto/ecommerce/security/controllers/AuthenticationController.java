@@ -13,9 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import projeto.ecommerce.dtos.UserDto;
 import projeto.ecommerce.entities.Salesman;
 import projeto.ecommerce.entities.User;
 import projeto.ecommerce.response.Response;
@@ -70,12 +68,22 @@ public class AuthenticationController {
             throws AuthenticationException {
         Response<TokenDto> response = new Response<TokenDto>();
 
-        Optional<User> user = validarStatusSalesman(authenticationDto, result);
+        User user = validarStatusSalesman(authenticationDto, result);
 
         if (result.hasErrors()) {
             log.error("Erro validando salesman Status: {}", result.getAllErrors());
             result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
             return ResponseEntity.badRequest().body(response);
+        }
+
+
+        if (user.getSalesman()!=null ) {
+            Salesman salesman = this.salesmanService.buscarSalesmanUser(user.getId()).get();
+            if (salesman.getStatus() == 0){
+                log.error("Usuario Não ativado", result.getAllErrors());
+                result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+                return ResponseEntity.badRequest().body(response);
+            }
         }
 
         log.info("Gerando token para o email {}.", authenticationDto.getEmail());
@@ -85,7 +93,7 @@ public class AuthenticationController {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getEmail());
         String token = jwtTokenUtil.obterToken(userDetails);
-        response.setData(new TokenDto(token.concat("/").concat(user.get().getId().toString())));
+        response.setData(new TokenDto(token.concat("/").concat(user.getId().toString())));
 
 
         return ResponseEntity.ok(response);
@@ -124,12 +132,12 @@ public class AuthenticationController {
     }
 
 
-    public Optional<User> validarStatusSalesman(JwtAuthenticationDto authenticationDto, BindingResult result) {
+    public User validarStatusSalesman(JwtAuthenticationDto authenticationDto, BindingResult result) {
 
-        Optional<User> user = this.userService.buscarPorEmail(authenticationDto.getEmail());
+        User user = this.userService.buscarPorEmail(authenticationDto.getEmail()).get();
 
 
-        if (user.isPresent()) {
+        if (user!=null) {
                 return user;
 
             }

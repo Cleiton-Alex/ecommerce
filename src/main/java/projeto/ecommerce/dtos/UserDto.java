@@ -9,7 +9,15 @@ public class UserDto {
     private String senha;
     private String email;
     private PerfilEnum perfil;
+    private Long Salesman_id;
 
+    public Long getSalesman_id() {
+        return Salesman_id;
+    }
+
+    public void setSalesman_id(Long salesman_id) {
+        Salesman_id = salesman_id;
+    }
 
     public Long getId() {
         return id;

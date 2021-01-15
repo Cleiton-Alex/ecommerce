@@ -20,12 +20,15 @@ public class Salesman implements Serializable {
     private String cpf;
     private BigInteger operation;
     private Integer accountType;
+    private Integer agency;
     private String phoneNumber;
     private User user;
     private String biography;
     private String photo;
     private Integer status;
     private List<Products> products = new ArrayList<>();
+
+
 
 
     @Id
@@ -47,6 +50,14 @@ public class Salesman implements Serializable {
         this.fullName = fullName;
     }
 
+    @Column(name = "agency", nullable = false)
+    public Integer getAgency() {
+        return agency;
+    }
+
+    public void setAgency(Integer agency) {
+        this.agency = agency;
+    }
     @Column(name = "cpf", nullable = false)
     public String getCpf() {
         return cpf;
@@ -90,7 +101,7 @@ public class Salesman implements Serializable {
     }
 
     @OneToOne(mappedBy = "salesman", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     @JsonIgnore
     public User getUser() {
         return user;
@@ -143,12 +154,13 @@ public class Salesman implements Serializable {
                 Objects.equals(biography, salesman.biography) &&
                 Objects.equals(photo, salesman.photo) &&
                 Objects.equals(status, salesman.status) &&
+                Objects.equals(agency, salesman.agency) &&
                 Objects.equals(products, salesman.products);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fullName, cpf, operation, accountType, phoneNumber, user, biography, photo, status, products);
+        return Objects.hash(id, fullName, cpf, operation, accountType, phoneNumber, user, biography, photo,agency, status, products);
     }
 
     @Override
@@ -164,8 +176,11 @@ public class Salesman implements Serializable {
                 ", biography='" + biography + '\'' +
                 ", photo='" + photo + '\'' +
                 ", status=" + status +
+                ", agency=" + agency +
                 ", products=" + products +
                 '}';
     }
+
+
 }
 
