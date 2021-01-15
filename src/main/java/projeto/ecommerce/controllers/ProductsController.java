@@ -33,7 +33,7 @@ public class ProductsController {
 
     private static final Logger log = LoggerFactory.getLogger(ProductsController.class);
 
-    @Value("25")
+    @Value("1")
     private int qtdPorPagina;
     @Autowired
     private ProductsService productsService;
@@ -110,6 +110,26 @@ public class ProductsController {
         response.setData(productsDtos);
         return ResponseEntity.ok(response);
     }
+    @GetMapping(value = "/paginacao")
+    public ResponseEntity<Response<Page<ProductsDto>>> listarPorProdutosid(
+
+            @RequestParam(value = "pag", defaultValue = "0") int pag,
+            @RequestParam(value = "ord", defaultValue = "id") String ord,
+            @RequestParam(value = "dir", defaultValue = "DESC") String dir,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam (value = "salesman" , defaultValue = "") String nomesalesman) {
+        log.info("Buscando lançamentos por ID do funcionário: {}, página: {}",  pag);
+        Response<Page<ProductsDto>> response = new Response<Page<ProductsDto>>();
+        //this.qtdPorPagina = size;
+        PageRequest pageRequest = PageRequest.of(pag, this.qtdPorPagina, Sort.Direction.valueOf(dir), ord);
+
+        Page<Products> products = this.productsService.buscarPage(pageRequest);
+        Page<ProductsDto> productsDtos = products.map(products1 -> this.converterProductsPraDTo(products1));
+
+        response.setData(productsDtos);
+        return ResponseEntity.ok(response);
+    }
+
 
 
 

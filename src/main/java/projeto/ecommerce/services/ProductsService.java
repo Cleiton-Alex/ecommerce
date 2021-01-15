@@ -28,6 +28,7 @@ public interface ProductsService {
     void remover(Long id);
 
     List<Products> buscarTodos();
+    Page<Products> buscarPage(PageRequest pageRequest);
 
     List<Products> findBySalesmanId(Long id);
 }
